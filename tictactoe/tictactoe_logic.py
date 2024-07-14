@@ -8,19 +8,12 @@ board =  [
     [7, 8, 9]
 ]
 
+player_x = True
+
 # Display Game Board
 def print_board(board):
     for row in board:
         print(row)
-
-# Ask for user choice
-def get_user_input(player):
-  while True:
-      user_input = int(input(player+" Enter a number from 1 to 9: "))
-      if 1 <= user_input <= 9:
-        return user_input
-      else:
-        print("Invalid input. Please enter a number between 1 and 9.")
 
 # Update Board based on user choice
 def update_board(board, user_input, new_value):
@@ -48,34 +41,30 @@ def win_check(board):
 
     return False
 
-# Player one Role
-def player_one_role(board):
-    user_choice = get_user_input("player 1 (X)")
-    update_board(board, user_choice, 'X')
-    print_board(board)
-
-# Player two Role
-def player_two_role(board):
-    user_choice = get_user_input("player 2 (O)")
-    update_board(board, user_choice, 'O')
+def player_role(board, index):
+    user_choice = index
+    if player_x == True:
+        symbol = 'X'
+    else:
+        symbol = 'O'
+    update_board(board, user_choice, symbol)
     print_board(board)
 
 # Game Loop
-def game_loop():
+def game_loop(index):
+    global player_x
     player1_turn = True
-    while True:
-        if player1_turn:
-            player_one_role(board)
-        else:
-            player_two_role(board)
-
-        if win_check(board):
-            print("Player", "1" if player1_turn else "2", "wins!")
-            break  # Exit the loop if there's a winner
-        
-        player1_turn = not player1_turn
+    if player1_turn:
+        player_role(board, index)
+    else:
+        player_role(board, index)
+    if win_check(board):
+        print("Player", "1" if player1_turn else "2", "wins!")
+        # Exit the loop if there's a winner
+    
+    player1_turn = not player1_turn
+    player_x = not player_x
 
 
    
 print_board(board)
-game_loop()
