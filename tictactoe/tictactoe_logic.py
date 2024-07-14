@@ -53,18 +53,9 @@ def player_role(board, index):
 # Game Loop
 def game_loop(index):
     global player_x
-    player1_turn = True
-    if player1_turn:
-        player_role(board, index)
-    else:
-        player_role(board, index)
+    player_role(board, index)
     if win_check(board):
-        print("Player", "1" if player1_turn else "2", "wins!")
-        # Exit the loop if there's a winner
-    
-    player1_turn = not player1_turn
+        print("Player", "1" if player_x else "2", "wins!")
     player_x = not player_x
-
-
-   
+ 
 print_board(board)
