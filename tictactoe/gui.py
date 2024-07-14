@@ -22,8 +22,13 @@ def make_buttongrid(root):
             make_button(root, row, col)
             
 
-def make_button(root, row, col) -> ttk.Button:
-    new_tile = ttk.Button(root, text=F'{3 * row + col + 1}')
-    new_tile.grid(row=row, column=col, sticky='NSEW')
-    new_tile.config(command=lambda b=new_tile: game_loop(int(b.cget('text'))))
-    return new_tile
+def make_button(root, row, col):
+    button = ttk.Button(root)
+    button.grid(row=row, column=col, sticky='NSEW')
+    button.config(command=lambda r=row, c=col, b=button: on_button_click(r, c, b))
+    return button
+
+def on_button_click(row, col, b):
+    turn = game_loop(3 * row + col + 1)
+    symbol = 'O' if turn else 'X'
+    b.config(text=symbol)

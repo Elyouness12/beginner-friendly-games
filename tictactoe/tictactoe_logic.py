@@ -1,3 +1,5 @@
+from tkinter import messagebox
+
 # Players
 Win = False
 
@@ -55,7 +57,10 @@ def game_loop(index):
     global player_x
     player_role(board, index)
     if win_check(board):
-        print("Player", "1" if player_x else "2", "wins!")
+        string = "Player", "1" if player_x else "2", "wins!"
+        print(string)
+        messagebox.showinfo(message=string)
     player_x = not player_x
+    return player_x
  
 print_board(board)
