@@ -10,6 +10,7 @@ board =  [[1, 2, 3],
 def print_board(board):
     for row in board:
         print(row)
+    print()
 
 def update_board(board, user_input, new_value, buttons):
   row = (user_input - 1) // 3
@@ -57,7 +58,7 @@ def gameloop(index, buttons, label):
             for btn in row:
                 btn.state(['disabled'])
         string = 'Player', 'X' if current_player else 'O', 'wins!'
-        print(string)
+        print(string, '\n')
         messagebox.showinfo(message=string)
         label['text'] = string
     elif check == 'Tie':
@@ -65,7 +66,7 @@ def gameloop(index, buttons, label):
             for btn in row:
                 btn.state(['disabled'])
         string = 'Game is tied!'
-        print(string)
+        print(string, '\n')
         messagebox.showinfo(message=string)
         label['text'] = string
     else:
@@ -75,6 +76,7 @@ def gameloop(index, buttons, label):
             label['text'] = 'Turn: X'
         current_player = not current_player
 
+print()
 print_board(board)
 
 def reset_array():
