@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
-from tictactoe_logic import gameloop
+from tictactoe_logic import gameloop, reset_array
 
 def make_gui():
     root = tk.Tk()
     root.geometry('300x300')
     root.title('TicTacToe')
-    make_buttongrid(root)
+    buttons = make_buttongrid(root)
+    button = ttk.Button(root, text='Reset', command=lambda: reset_board(root, buttons))
+    button.grid(sticky='NSEW')
     root.mainloop()
 
 def make_buttongrid(root):
@@ -17,6 +19,7 @@ def make_buttongrid(root):
         for col in range(3):
             root.grid_columnconfigure(col, weight=1)
             make_button(root, row, col, buttons)
+    return buttons
             
 def make_button(root, row, col, buttons):
     button = ttk.Button(root)
@@ -26,3 +29,10 @@ def make_button(root, row, col, buttons):
 
 def on_button_click(row, col, buttons):
     gameloop(3 * row + col + 1, buttons)
+
+def reset_board(root, buttons):
+    for row in buttons:
+        for btn in row:
+            btn.destroy()
+    make_buttongrid(root)
+    reset_array()

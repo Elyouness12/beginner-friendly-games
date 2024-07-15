@@ -67,3 +67,9 @@ def gameloop(index, buttons):
     current_player = not current_player
 
 print_board(board)
+
+def reset_array():
+    global board
+    board = [[1, 2, 3],
+             [4, 5, 6],
+             [7, 8, 9]]
