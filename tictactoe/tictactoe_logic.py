@@ -49,8 +49,9 @@ def make_turn(board, index, buttons):
     update_board(board, user_choice, symbol, buttons)
     print_board(board)
 
-def gameloop(index, buttons, label):
+def gameloop(r, c, buttons, label):
     global current_player
+    index = 3 * r + c + 1
     make_turn(board, index, buttons)
     check = check_win(board, buttons)
     if check == True:
@@ -59,16 +60,16 @@ def gameloop(index, buttons, label):
                 btn.state(['disabled'])
         string = 'Player', 'X' if current_player else 'O', 'wins!'
         print(string, '\n')
-        messagebox.showinfo(message=string)
         label['text'] = string
+        messagebox.showinfo(message=string)
     elif check == 'Tie':
         for row in buttons:
             for btn in row:
                 btn.state(['disabled'])
         string = 'Game is tied!'
         print(string, '\n')
-        messagebox.showinfo(message=string)
         label['text'] = string
+        messagebox.showinfo(message=string)
     else:
         if label['text'] == 'Turn: X':
             label['text'] = 'Turn: O'

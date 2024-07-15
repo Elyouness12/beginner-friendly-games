@@ -31,7 +31,9 @@ def make_button(root, row, col, buttons, label):
     button.config(command=lambda r=row, c=col: on_button_click(r, c, buttons, label))
 
 def on_button_click(row, col, buttons, label):
-    gameloop(3 * row + col + 1, buttons, label)
+    if buttons[row][col]['text'] in ['X', 'O']:
+        return
+    gameloop(row, col, buttons, label)
 
 def reset_board(root, buttons, label):
     for row in buttons:
