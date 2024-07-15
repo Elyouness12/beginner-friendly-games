@@ -14,6 +14,8 @@ def print_board(board):
 def update_board(board, user_input, new_value, buttons):
   row = (user_input - 1) // 3
   col = (user_input - 1) % 3
+  if (board[row][col] == 'X' or board[row][col] == 'O'):
+    return False
   board[row][col] = new_value
   buttons[row][col]['text'] = new_value
 
@@ -46,7 +48,7 @@ def make_turn(board, index, buttons):
     update_board(board, user_choice, symbol, buttons)
     print_board(board)
 
-def gameloop(index, buttons):
+def gameloop(index, buttons, label):
     global current_player
     make_turn(board, index, buttons)
     check = check_win(board, buttons)
@@ -54,22 +56,32 @@ def gameloop(index, buttons):
         for row in buttons:
             for btn in row:
                 btn.state(['disabled'])
-        string = 'Player', '1' if current_player else '2', 'wins!'
+        string = 'Player', 'X' if current_player else 'O', 'wins!'
         print(string)
         messagebox.showinfo(message=string)
-    elif check == 'Tie':
+        label['text'] = string
+    elif check == 'Tie!':
         for row in buttons:
             for btn in row:
                 btn.state(['disabled'])
         string = 'Tie'
         print(string)
         messagebox.showinfo(message=string)
-    current_player = not current_player
+        label['text'] = string
+    else:
+        if label['text'] == 'Turn: X':
+            label['text'] = 'Turn: O'
+        else:
+            label['text'] = 'Turn: X'
+        current_player = not current_player
 
 print_board(board)
 
 def reset_array():
     global board
+    global current_player
+    current_player = True
     board = [[1, 2, 3],
              [4, 5, 6],
              [7, 8, 9]]
+    print_board(board)
