@@ -1,66 +1,69 @@
 from tkinter import messagebox
 
-# Players
-Win = False
+win = False
+current_player = True
 
-# Game Board
-board =  [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]
+board =  [[1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9]]
 
-player_x = True
-
-# Display Game Board
 def print_board(board):
     for row in board:
         print(row)
 
-# Update Board based on user choice
-def update_board(board, user_input, new_value):
+def update_board(board, user_input, new_value, buttons):
   row = (user_input - 1) // 3
   col = (user_input - 1) % 3
   board[row][col] = new_value
+  buttons[row][col]['text'] = new_value
 
-# Check for wining
-def win_check(board):
-    # Horizontal check
+def check_win(board, buttons):
+    # Horizontal
     for row in range(3):
-       if   board[row][0] == board[row][1] == board[row][2] != '0':
-            return True
-
-    # Vertical check
+       if board[row][0] == board[row][1] == board[row][2] != '0':
+           return True
+    # Vertical
     for col in range(3):
-       if   board[0][col] == board[1][col] == board[2][col] != '0':
-            return True
-
-    # X check
-    if board[0][0] == board[1][1] == board[2][2] != '0':
+       if board[0][col] == board[1][col] == board[2][col] != '0': 
+           return True
+    # Diagonal
+    if board[0][0] == board[1][1] == board[2][2] != '0': 
         return True
-    if board[2][0] == board[1][1] == board[0][2] != '0':
+    if board[2][0] == board[1][1] == board[0][2] != '0': 
         return True
 
+    count = 9
+    for row in range(3):
+        for col in range(3):
+            if board[row][col] == 'X' or board[row][col] == 'O': count -= 1
+    if count < 1:
+        return 'Tie'
     return False
 
-def player_role(board, index):
+def make_turn(board, index, buttons):
     user_choice = index
-    if player_x == True:
-        symbol = 'X'
-    else:
-        symbol = 'O'
-    update_board(board, user_choice, symbol)
+    symbol = 'X' if current_player else 'O'
+    update_board(board, user_choice, symbol, buttons)
     print_board(board)
 
-# Game Loop
-def game_loop(index):
-    global player_x
-    player_role(board, index)
-    if win_check(board):
-        string = "Player", "1" if player_x else "2", "wins!"
+def gameloop(index, buttons):
+    global current_player
+    make_turn(board, index, buttons)
+    check = check_win(board, buttons)
+    if check == True:
+        for row in buttons:
+            for btn in row:
+                btn.state(['disabled'])
+        string = 'Player', '1' if current_player else '2', 'wins!'
         print(string)
         messagebox.showinfo(message=string)
-    player_x = not player_x
-    return player_x
- 
+    elif check == 'Tie':
+        for row in buttons:
+            for btn in row:
+                btn.state(['disabled'])
+        string = 'Tie'
+        print(string)
+        messagebox.showinfo(message=string)
+    current_player = not current_player
+
 print_board(board)
