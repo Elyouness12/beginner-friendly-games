@@ -47,8 +47,6 @@ def on_button_click(row, col, buttons, label):
 def reset_board(root, buttons, label):
     for row in buttons:
         for btn in row:
-            btn.destroy()
-    buttons = make_buttongrid(root, label)
+            btn.config(style='', text='', state='enabled')
     reset_array()
     label['text'] = 'Turn: X'
-    buttons[0][0].focus()
