@@ -60,11 +60,11 @@ def gameloop(index, buttons, label):
         print(string)
         messagebox.showinfo(message=string)
         label['text'] = string
-    elif check == 'Tie!':
+    elif check == 'Tie':
         for row in buttons:
             for btn in row:
                 btn.state(['disabled'])
-        string = 'Tie'
+        string = 'Game is tied!'
         print(string)
         messagebox.showinfo(message=string)
         label['text'] = string
